@@ -11,6 +11,7 @@ Visão\TelaUsuarioComum.class
 Visão\TelaLogin.class
 Visão\TelaUsuarioComum$5.class
 Excecao\ColecaoException.class
+Modelo\NewClass.class
 Visão\TelaLogin$4.class
 Persistência\ColecaoDeCarrinho.class
 Modelo\ProdutoCarrinho.class
