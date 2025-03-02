@@ -124,45 +124,6 @@ public class UsuarioDAO implements ColecaoDeUsuario { // MANIPULADOR
         }
         return 3;
     }
-    
-    @Override
-    public void iniciarSessao(Usuario usuario) throws ColecaoException {
-        PreparedStatement ps = null;
-        try {
-            String sql = "INSERT INTO sessao(sessao_usuario_id) SELECT usuario_id FROM usuario WHERE usuario_email=?;";
-            ps = this.conexao.prepareStatement(sql);
-            ps.setString(1, usuario.getUsuario_email());
-            ps.execute();
-            System.out.println("Sessão iniciada com usuário: " + usuario.getUsuario_email());
-        } catch (SQLException e) {
-            throw new ColecaoException("Erro ao iniciar sessão", e);
-        } finally {
-            try {
-                ps.close();
-            } catch (SQLException e) {
-                throw new ColecaoException("Erro ao fechar o manipulador de banco de dados!", e);
-            }
-        }
-    }
-    
-    @Override
-        public void finalizarSessao() throws ColecaoException {
-        PreparedStatement ps = null;
-        try {
-            String sql = "DELETE FROM sessao";
-            ps = this.conexao.prepareStatement(sql);
-            ps.execute();
-            System.out.println("Sessão finalizada com sucesso.");
-        } catch (SQLException e) {
-            throw new ColecaoException("Erro ao iniciar sessão", e);
-        } finally {
-            try {
-                ps.close();
-            } catch (SQLException e) {
-                throw new ColecaoException("Erro ao fechar o manipulador de banco de dados!", e);
-            }
-        }
-    }
 
 /*    @Override
     public List<Usuario> todos() throws ColecaoException {

@@ -15,6 +15,4 @@ import Modelo.Usuario;
 public interface ColecaoDeUsuario extends Colecao<Usuario> {
     public List<Usuario> porNome(String nome) throws ColecaoException;
     public int verificarUsuario(String email, String senha) throws ColecaoException;
-    public void iniciarSessao(Usuario usuario) throws ColecaoException;
-    public void finalizarSessao() throws ColecaoException;
 }
