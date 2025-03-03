@@ -6,6 +6,7 @@ package Persistência;
 
 import Excecao.ColecaoException;
 import Modelo.Usuario;
+import Persistência.ColecaoDeUsuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -213,5 +214,43 @@ public class UsuarioDAO implements ColecaoDeUsuario { // MANIPULADOR
     @Override
     public List<Usuario> porNome(String nome) throws ColecaoException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Usuario porEmail(String email) throws ColecaoException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List<Usuario> lp = null;
+        
+        try {
+            lp = new ArrayList<Usuario>();
+            String sql = "SELECT usuario_id, usuario_nome, usuario_sobrenome, usuario_email, usuario_nascimento FROM usuario WHERE usuario_email=?";
+            ps = this.conexao.prepareStatement(sql);
+            ps.setString(1, email);
+            
+            rs = ps.executeQuery();
+            while(rs.next()) {
+                //Usuario p = new Usuario(rs.getString("usuario_nome"), rs.getString("usuario_sobrenome"), rs.getString("usuario_email"), rs.getString("usuario_nascimento"), rs.getBoolean("usuario_administrador"));
+                Usuario u = new Usuario();
+                u.setUsuario_id(rs.getInt("usuario_id"));
+                u.setUsuario_nome(rs.getString("usuario_nome"));
+                u.setUsuario_sobrenome(rs.getString("usuario_sobrenome"));
+                u.setUsuario_email(rs.getString("usuario_email"));
+                //u.setUsuario_nascimento("usuario_nascimento");
+                lp.add(u);
+            }
+        } catch (SQLException e) {
+            throw new ColecaoException("Não foi possível obter registro no banco de dados a partir do email.", e);
+        } finally {
+            try {
+                ps.close();
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                throw new ColecaoException("Erro ao fechar o manipulador de banco de dados!", e);
+            }
+        }
+        return lp.get(0);
     }
 }

@@ -6,6 +6,7 @@ package Persistência;
 
 import Excecao.ColecaoException;
 import Modelo.Sessao;
+import Persistência.ColecaoDeSessao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -33,12 +34,12 @@ public class SessaoDAO implements ColecaoDeSessao {
     }
 
     @Override
-    public void inserir(Sessao objeto) throws ColecaoException {
+    public void inserir(Sessao sessao) throws ColecaoException {
             PreparedStatement ps = null;
         try {
-            String sql = "INSERT INTO sessao(sessao_usuario_id) SELECT usuario_id FROM usuario WHERE usuario_email=?;";
+            String sql = "INSERT INTO sessao(sessao_usuario_id) VALUES(?)";
             ps = this.conexao.prepareStatement(sql);
-    //        ps.setString(1, usuario.getUsuario_email());
+            ps.setInt(1, sessao.getSessao_usuario_id());
             ps.execute();
         //    System.out.println("Sessão iniciada com usuário: " + usuario.getUsuario_email());
         } catch (SQLException e) {

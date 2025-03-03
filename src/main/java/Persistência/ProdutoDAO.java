@@ -6,6 +6,7 @@ package Persistência;
 
 import Excecao.ColecaoException;
 import Modelo.Produto;
+import Persistência.ColecaoDeProduto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

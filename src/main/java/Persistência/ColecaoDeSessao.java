@@ -4,6 +4,7 @@
  */
 package Persistência;
 
+import Excecao.ColecaoException;
 import Modelo.Sessao;
 
 /**

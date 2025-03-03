@@ -7,10 +7,13 @@ package Visão;
 import Conexao.ConexaoSingleton;
 import Excecao.ColecaoException;
 import Excecao.ConexaoException;
+import Modelo.Sessao;
 import Modelo.Usuario;
 import Persistência.ColecaoDeCarrinho;
+import Persistência.ColecaoDeSessao;
 import Persistência.CarrinhoDAO;
 import Persistência.ColecaoDeUsuario;
+import Persistência.SessaoDAO;
 import Persistência.UsuarioDAO;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -143,21 +146,25 @@ public class TelaLogin extends javax.swing.JFrame {
             String senha = "";
             Connection con = ConexaoSingleton.getConexao();
             ColecaoDeUsuario cu = new UsuarioDAO(con);
+            ColecaoDeSessao cs = new SessaoDAO(con);
+            
+            Usuario u1 = cu.porEmail(LoginInputEmail.getText());
+            Sessao s1 = new Sessao();
+            s1.setSessao_usuario_id(u1.getUsuario_id());
             
             for(char c : LoginInputSenha.getPassword()){
                 senha += c;
             }
-            Usuario u1 = new Usuario();
-            u1.setUsuario_email(LoginInputEmail.getText());
+            
             u1.setUsuario_senha(senha);
             if(cu.verificarUsuario(u1.getUsuario_email(), senha) == 1) {
-                cu.iniciarSessao(u1);
+                cs.inserir(s1);
                 TelaUsuarioAdm TelaAdm;
                 TelaAdm = new TelaUsuarioAdm();
                 this.dispose();
                 TelaAdm.setVisible(true);
             } else if(cu.verificarUsuario(u1.getUsuario_email(), senha) == 2) {
-                cu.iniciarSessao(u1);
+                cs.inserir(s1);
                 TelaUsuarioComum TelaUsuario;
                 TelaUsuario = new TelaUsuarioComum();
                 this.dispose();

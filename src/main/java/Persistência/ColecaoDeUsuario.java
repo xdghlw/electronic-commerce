@@ -13,6 +13,7 @@ import Modelo.Usuario;
  * @author Gustavo Loreto
  */
 public interface ColecaoDeUsuario extends Colecao<Usuario> {
+    public Usuario porEmail(String email) throws ColecaoException;
     public List<Usuario> porNome(String nome) throws ColecaoException;
     public int verificarUsuario(String email, String senha) throws ColecaoException;
 }
